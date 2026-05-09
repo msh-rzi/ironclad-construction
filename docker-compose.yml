@@ -1,0 +1,24 @@
+version: '3.9'
+
+services:
+  nextjs:
+    build: .
+    container_name: ironclad-nextjs
+    restart: unless-stopped
+    networks:
+      - traefik
+
+    labels:
+      - "traefik.enable=true"
+
+      # Router
+      - "traefik.http.routers.ironclad.rule=Host(`traefik.mehdify.com`)"
+      - "traefik.http.routers.ironclad.entrypoints=websecure"
+      - "traefik.http.routers.ironclad.tls.certresolver=letsencrypt"
+
+      # Service
+      - "traefik.http.services.ironclad.loadbalancer.server.port=3000"
+
+networks:
+  traefik:
+    external: true
