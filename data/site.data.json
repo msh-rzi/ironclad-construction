@@ -1,0 +1,361 @@
+{
+  "company": {
+    "name": "IronClad",
+    "shortName": "IC",
+    "tagline": "Built on integrity, driven by excellence.",
+    "established": "1996",
+    "foundedCity": "Dallas, TX",
+    "coverage": "Nationwide",
+    "phone": "1-800-IRONCLAD",
+    "phoneFormatted": "(1-800-476-6252)",
+    "email": {
+      "projects": "projects@ironclad.build",
+      "bids": "bids@ironclad.build"
+    },
+    "address": {
+      "street": "2400 Commerce Dr",
+      "city": "Dallas",
+      "state": "TX",
+      "zip": "75201"
+    },
+    "hours": {
+      "weekday": "Mon–Fri 7AM–6PM CST",
+      "emergency": "Emergency line 24/7"
+    },
+    "socialHandles": [
+      "LI",
+      "TW",
+      "IG",
+      "FB"
+    ],
+    "regionalOffices": [
+      "Dallas, TX (HQ)",
+      "Houston, TX",
+      "Chicago, IL",
+      "Phoenix, AZ",
+      "Seattle, WA",
+      "Nashville, TN"
+    ],
+    "legalLine": "Licensed General Contractor in all 50 states."
+  },
+  "hero": {
+    "eyebrow": "Est. 1996 · Dallas, TX · Nationwide",
+    "headline": [
+      "WE BUILD",
+      "AMERICA"
+    ],
+    "body": "From groundbreaking to ribbon-cutting, IronClad Builders has delivered landmark commercial, industrial, and residential projects for over two decades — on time, on budget, ironclad.",
+    "ctas": [
+      {
+        "label": "View Our Work",
+        "href": "#projects",
+        "variant": "primary"
+      },
+      {
+        "label": "AI Price Estimator",
+        "href": "#estimator",
+        "variant": "outline"
+      }
+    ],
+    "stats": [
+      {
+        "value": "28+",
+        "label": "Years in Business"
+      },
+      {
+        "value": "1,400+",
+        "label": "Projects Completed"
+      },
+      {
+        "value": "$3.2B",
+        "label": "Total Project Value"
+      },
+      {
+        "value": "38",
+        "label": "States Served"
+      }
+    ]
+  },
+  "navbar": {
+    "links": [
+      "Projects",
+      "Services",
+      "Pricing",
+      "Estimator",
+      "Contact"
+    ],
+    "ctaLabel": "Get Estimate",
+    "ctaHref": "#estimator"
+  },
+  "projects": [
+    {
+      "id": "pinnacle-tower",
+      "title": "Pinnacle Tower",
+      "location": "Houston, TX",
+      "type": "Commercial High-Rise",
+      "value": "$420M",
+      "year": 2023,
+      "floors": 52,
+      "sqft": "1.2M sq ft",
+      "color": "#f5a623",
+      "desc": "52-story mixed-use tower featuring luxury offices, retail podium, and sky amenities. Completed 3 weeks ahead of schedule."
+    },
+    {
+      "id": "riverside-medical",
+      "title": "Riverside Medical Center",
+      "location": "Nashville, TN",
+      "type": "Healthcare Facility",
+      "value": "$280M",
+      "year": 2022,
+      "floors": 8,
+      "sqft": "480K sq ft",
+      "color": "#5b9cf6",
+      "desc": "State-of-the-art regional medical center with 320 beds, surgical suites, and integrated research wing."
+    },
+    {
+      "id": "sunridge-estates",
+      "title": "Sunridge Estates",
+      "location": "Phoenix, AZ",
+      "type": "Residential Master Plan",
+      "value": "$195M",
+      "year": 2023,
+      "floors": null,
+      "sqft": "620 homes",
+      "color": "#6be6a0",
+      "desc": "650-acre master-planned community with 620 single-family homes, parks, and commercial center."
+    },
+    {
+      "id": "gateway-logistics",
+      "title": "Gateway Logistics Hub",
+      "location": "Memphis, TN",
+      "type": "Industrial / Warehouse",
+      "value": "$340M",
+      "year": 2024,
+      "floors": 3,
+      "sqft": "2.8M sq ft",
+      "color": "#e85f5f",
+      "desc": "Mega distribution center serving America's midsection, built with advanced automation-ready infrastructure."
+    },
+    {
+      "id": "lakeview-civic",
+      "title": "Lakeview Civic Center",
+      "location": "Minneapolis, MN",
+      "type": "Public / Municipal",
+      "value": "$115M",
+      "year": 2022,
+      "floors": 5,
+      "sqft": "210K sq ft",
+      "color": "#c77dff",
+      "desc": "Award-winning civic center housing city hall, library, and public plaza. LEED Platinum certified."
+    },
+    {
+      "id": "pacific-crest-hotel",
+      "title": "Pacific Crest Hotel",
+      "location": "Seattle, WA",
+      "type": "Hospitality",
+      "value": "$260M",
+      "year": 2024,
+      "floors": 34,
+      "sqft": "580K sq ft",
+      "color": "#ffd166",
+      "desc": "34-story luxury hotel with 480 rooms, rooftop bar, conference center, and spa. AAA Five Diamond certified."
+    }
+  ],
+  "services": {
+    "eyebrow": "What We Do",
+    "headline": [
+      "OUR",
+      "SERVICES"
+    ],
+    "body": "Full-service general contracting from site preparation through final inspection. We self-perform core trades and manage elite subcontractors with OSHA-certified safety oversight.",
+    "credentials": [
+      "Licensed in all 50 states",
+      "Bonded & fully insured up to $2B",
+      "ISO 9001:2015 Certified",
+      "Union & open-shop crews"
+    ],
+    "items": [
+      {
+        "icon": "Building2",
+        "title": "Commercial Construction",
+        "desc": "Office towers, retail centers, mixed-use developments. We handle projects from $5M to $500M+.",
+        "color": "#f5a623"
+      },
+      {
+        "icon": "Home",
+        "title": "Residential & Custom Homes",
+        "desc": "Luxury custom homes, master-planned communities, multi-family apartments.",
+        "color": "#6be6a0"
+      },
+      {
+        "icon": "Factory",
+        "title": "Industrial & Warehouse",
+        "desc": "Distribution hubs, manufacturing plants, cold storage, data centers.",
+        "color": "#5b9cf6"
+      },
+      {
+        "icon": "Wrench",
+        "title": "Renovation & Remodeling",
+        "desc": "Historic restoration, tenant improvements, full gut-renovations.",
+        "color": "#ffd166"
+      },
+      {
+        "icon": "Leaf",
+        "title": "Sustainable Building",
+        "desc": "LEED-certified, net-zero, and ESG-compliant construction for tomorrow.",
+        "color": "#a8e6cf"
+      },
+      {
+        "icon": "ShieldCheck",
+        "title": "Design-Build",
+        "desc": "Single-source accountability from concept to certificate of occupancy.",
+        "color": "#c77dff"
+      }
+    ]
+  },
+  "pricing": {
+    "eyebrow": "Transparent Pricing",
+    "headline": [
+      "PRICING",
+      "OVERVIEW"
+    ],
+    "subheading": "We believe in transparent, competitive pricing. Below are typical cost ranges — use our AI Estimator for a personalized quote.",
+    "disclaimer": "* All prices are estimated ranges. Final quotes depend on scope, location, materials, and market conditions.",
+    "ctaLabel": "Get Detailed Estimate →",
+    "ctaHref": "#estimator",
+    "plans": [
+      {
+        "name": "Residential",
+        "tagline": "Homes & Renovations",
+        "range": "$80–$250",
+        "unit": "per sq ft",
+        "color": "#6be6a0",
+        "highlight": false,
+        "features": [
+          "Custom home design-build",
+          "Kitchen & bath remodels",
+          "Additions & ADUs",
+          "Structural renovations",
+          "Permit management",
+          "1-year warranty"
+        ],
+        "note": "Typical range: $150K – $3M"
+      },
+      {
+        "name": "Commercial",
+        "tagline": "Offices & Retail",
+        "range": "$150–$450",
+        "unit": "per sq ft",
+        "color": "#f5a623",
+        "highlight": true,
+        "features": [
+          "Tenant improvements",
+          "Shell & core construction",
+          "Retail & restaurant build-outs",
+          "Multi-story office",
+          "LEED certification support",
+          "2-year warranty"
+        ],
+        "note": "Typical range: $1M – $50M"
+      },
+      {
+        "name": "Industrial",
+        "tagline": "Warehouses & Plants",
+        "range": "$60–$180",
+        "unit": "per sq ft",
+        "color": "#5b9cf6",
+        "highlight": false,
+        "features": [
+          "Tilt-up & steel frame",
+          "Distribution centers",
+          "Manufacturing facilities",
+          "Cold storage",
+          "Mezzanine systems",
+          "3-year structural warranty"
+        ],
+        "note": "Typical range: $5M – $500M+"
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Let's Build Together",
+    "headline": [
+      "GET IN",
+      "TOUCH"
+    ],
+    "successTitle": "Message Received",
+    "successBody": "A project specialist will reach out within 24 business hours. For urgent matters, call 1-800-IRONCLAD.",
+    "formFields": {
+      "projectTypes": [
+        "Residential",
+        "Commercial",
+        "Industrial",
+        "Renovation",
+        "Other"
+      ]
+    },
+    "infoCards": [
+      {
+        "icon": "MapPin",
+        "label": "Headquarters",
+        "value": "2400 Commerce Dr\nDallas, TX 75201"
+      },
+      {
+        "icon": "Phone",
+        "label": "Main Line",
+        "value": "1-800-IRONCLAD\n(1-800-476-6252)"
+      },
+      {
+        "icon": "Mail",
+        "label": "Email",
+        "value": "projects@ironclad.build\nbids@ironclad.build"
+      },
+      {
+        "icon": "Clock",
+        "label": "Office Hours",
+        "value": "Mon–Fri 7AM–6PM CST\nEmergency line 24/7"
+      }
+    ]
+  },
+  "footer": {
+    "tagline": "America's trusted general contractor since 1996. Built on integrity, driven by excellence.",
+    "copyrightYear": 2025,
+    "legalLinks": [
+      "Privacy Policy",
+      "Terms",
+      "Accessibility"
+    ],
+    "columns": [
+      {
+        "title": "Company",
+        "links": [
+          "About Us",
+          "Leadership",
+          "Careers",
+          "News",
+          "Safety"
+        ]
+      },
+      {
+        "title": "Services",
+        "links": [
+          "Commercial",
+          "Residential",
+          "Industrial",
+          "Renovation",
+          "Design-Build"
+        ]
+      },
+      {
+        "title": "Resources",
+        "links": [
+          "Project Gallery",
+          "Case Studies",
+          "Blog",
+          "Contact",
+          "Get Estimate"
+        ]
+      }
+    ]
+  }
+}

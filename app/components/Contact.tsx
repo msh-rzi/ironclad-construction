@@ -1,6 +1,25 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, LucideIcon } from "lucide-react";
+import siteData from "@/data/site.data.json";
+
+const { contact, company } = siteData;
+
+const ICON_MAP: Record<string, LucideIcon> = { MapPin, Phone, Mail, Clock };
+
+const inputStyle: React.CSSProperties = {
+  background: "var(--steel-mid)",
+  border: "1px solid rgba(245,166,35,0.15)",
+  color: "var(--white)",
+  padding: "14px 18px",
+  fontFamily: "Barlow",
+  fontSize: 14,
+  outline: "none",
+  transition: "border-color 0.2s",
+  width: "100%",
+};
+const focusInput = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => { e.target.style.borderColor = "var(--amber)"; };
+const blurInput  = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => { e.target.style.borderColor = "rgba(245,166,35,0.15)"; };
 
 export default function Contact() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -27,38 +46,38 @@ export default function Contact() {
         <div style={{ marginBottom: 64, opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(40px)", transition: "all 0.7s ease" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
             <div style={{ width: 40, height: 2, background: "var(--amber)" }} />
-            <span style={{ fontFamily: "Barlow Condensed", fontWeight: 600, fontSize: 13, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--amber)" }}>Let's Build Together</span>
+            <span style={{ fontFamily: "Barlow Condensed", fontWeight: 600, fontSize: 13, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--amber)" }}>
+              {contact.eyebrow}
+            </span>
           </div>
-          <h2 style={{ fontSize: "clamp(48px, 6vw, 80px)", color: "var(--white)" }}>GET IN<br /><span style={{ color: "var(--amber)" }}>TOUCH</span></h2>
+          <h2 style={{ fontSize: "clamp(48px, 6vw, 80px)", color: "var(--white)" }}>
+            {contact.headline[0]}<br />
+            <span style={{ color: "var(--amber)" }}>{contact.headline[1]}</span>
+          </h2>
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: 64, alignItems: "start" }} className="contact-grid">
-          {/* Info */}
+          {/* Info cards */}
           <div style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(40px)", transition: "all 0.7s 0.1s ease" }}>
-            {[
-              { icon: MapPin, label: "Headquarters", value: "2400 Commerce Dr\nDallas, TX 75201" },
-              { icon: Phone, label: "Main Line", value: "1-800-IRONCLAD\n(1-800-476-6252)" },
-              { icon: Mail, label: "Email", value: "projects@ironclad.build\nbids@ironclad.build" },
-              { icon: Clock, label: "Office Hours", value: "Mon–Fri 7AM–6PM CST\nEmergency line 24/7" },
-            ].map((item, i) => {
-              const Icon = item.icon;
+            {contact.infoCards.map((card) => {
+              const Icon = ICON_MAP[card.icon] ?? MapPin;
               return (
-                <div key={i} style={{ display: "flex", gap: 20, marginBottom: 32 }}>
+                <div key={card.label} style={{ display: "flex", gap: 20, marginBottom: 32 }}>
                   <div style={{ width: 44, height: 44, background: "var(--steel-light)", border: "1px solid rgba(245,166,35,0.2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                     <Icon size={18} color="var(--amber)" />
                   </div>
                   <div>
-                    <div style={{ fontFamily: "Barlow Condensed", fontSize: 11, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--concrete)", marginBottom: 6 }}>{item.label}</div>
-                    <div style={{ fontSize: 15, color: "var(--concrete-light)", lineHeight: 1.6, whiteSpace: "pre-line" }}>{item.value}</div>
+                    <div style={{ fontFamily: "Barlow Condensed", fontSize: 11, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--concrete)", marginBottom: 6 }}>{card.label}</div>
+                    <div style={{ fontSize: 15, color: "var(--concrete-light)", lineHeight: 1.6, whiteSpace: "pre-line" }}>{card.value}</div>
                   </div>
                 </div>
               );
             })}
 
-            {/* Office locations */}
+            {/* Regional offices */}
             <div style={{ padding: "24px", background: "var(--steel-mid)", borderLeft: "3px solid var(--amber)" }}>
               <div style={{ fontFamily: "Barlow Condensed", fontSize: 11, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--amber)", marginBottom: 12 }}>Regional Offices</div>
-              {["Dallas, TX (HQ)", "Houston, TX", "Chicago, IL", "Phoenix, AZ", "Seattle, WA", "Nashville, TN"].map(city => (
+              {company.regionalOffices.map((city) => (
                 <div key={city} style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
                   <div style={{ width: 4, height: 4, background: "var(--amber)", flexShrink: 0 }} />
                   <span style={{ fontSize: 14, color: "var(--concrete-light)" }}>{city}</span>
@@ -72,13 +91,13 @@ export default function Contact() {
             {sent ? (
               <div style={{ background: "var(--steel-mid)", border: "1px solid rgba(107,230,160,0.3)", padding: 48, textAlign: "center" }}>
                 <div style={{ fontSize: 48, marginBottom: 16 }}>✅</div>
-                <h3 style={{ fontFamily: "Bebas Neue", fontSize: 36, color: "var(--white)", marginBottom: 12 }}>Message Received</h3>
-                <p style={{ color: "var(--concrete-light)", lineHeight: 1.7 }}>A project specialist will reach out within 24 business hours. For urgent matters, call 1-800-IRONCLAD.</p>
+                <h3 style={{ fontFamily: "Bebas Neue", fontSize: 36, color: "var(--white)", marginBottom: 12 }}>{contact.successTitle}</h3>
+                <p style={{ color: "var(--concrete-light)", lineHeight: 1.7 }}>{contact.successBody}</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-                  {[{ ph: "First Name *", type: "text" }, { ph: "Last Name *", type: "text" }].map(f => (
+                  {[{ ph: "First Name *", type: "text" }, { ph: "Last Name *", type: "text" }].map((f) => (
                     <input key={f.ph} type={f.type} placeholder={f.ph} required style={inputStyle} onFocus={focusInput} onBlur={blurInput} />
                   ))}
                 </div>
@@ -86,7 +105,7 @@ export default function Contact() {
                 <input type="tel" placeholder="Phone Number" style={inputStyle} onFocus={focusInput} onBlur={blurInput} />
                 <select required style={{ ...inputStyle, cursor: "pointer" }} onFocus={focusInput} onBlur={blurInput}>
                   <option value="">Project Type *</option>
-                  {["Residential", "Commercial", "Industrial", "Renovation", "Other"].map(o => <option key={o}>{o}</option>)}
+                  {contact.formFields.projectTypes.map((o) => <option key={o}>{o}</option>)}
                 </select>
                 <input type="text" placeholder="Approximate Budget (optional)" style={inputStyle} onFocus={focusInput} onBlur={blurInput} />
                 <textarea placeholder="Tell us about your project..." rows={5} style={{ ...inputStyle, resize: "vertical" as const }} onFocus={focusInput} onBlur={blurInput} />
@@ -96,11 +115,10 @@ export default function Contact() {
                   fontFamily: "Barlow Condensed", fontWeight: 700, fontSize: 14,
                   letterSpacing: "0.12em", textTransform: "uppercase",
                   clipPath: "polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%)",
-                  cursor: "pointer", transition: "background 0.2s",
-                  alignSelf: "flex-start",
+                  cursor: "pointer", transition: "background 0.2s", alignSelf: "flex-start",
                 }}
-                onMouseEnter={e => (e.currentTarget.style.background = "var(--amber-bright)")}
-                onMouseLeave={e => (e.currentTarget.style.background = "var(--amber)")}
+                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "var(--amber-bright)")}
+                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "var(--amber)")}
                 >Send Message →</button>
               </form>
             )}
@@ -114,17 +132,3 @@ export default function Contact() {
     </section>
   );
 }
-
-const inputStyle: React.CSSProperties = {
-  background: "var(--steel-mid)",
-  border: "1px solid rgba(245,166,35,0.15)",
-  color: "var(--white)",
-  padding: "14px 18px",
-  fontFamily: "Barlow",
-  fontSize: 14,
-  outline: "none",
-  transition: "border-color 0.2s",
-  width: "100%",
-};
-const focusInput = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => { e.target.style.borderColor = "var(--amber)"; };
-const blurInput = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => { e.target.style.borderColor = "rgba(245,166,35,0.15)"; };
