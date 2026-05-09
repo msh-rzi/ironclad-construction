@@ -1,12 +1,12 @@
-version: '3.9'
-
 services:
   nextjs:
     build: .
     container_name: ironclad-nextjs
     restart: unless-stopped
+    env_file:
+      - .env.local
     environment:
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - NODE_ENV=production
     networks:
       - traefik
 
@@ -17,9 +17,11 @@ services:
       - "traefik.http.routers.ironclad.rule=Host(`traefik.mehdify.com`)"
       - "traefik.http.routers.ironclad.entrypoints=websecure"
       - "traefik.http.routers.ironclad.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.ironclad.service=ironclad"
 
       # Service
       - "traefik.http.services.ironclad.loadbalancer.server.port=3000"
+      - "traefik.docker.network=traefik"
 
 networks:
   traefik:
