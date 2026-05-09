@@ -23,44 +23,6 @@ async function getSiteData(): Promise<SiteData> {
   }
 }
 
-function getProjectNarrative(project: Project) {
-  const narratives: Record<string, string> = {
-    "pinnacle-tower":
-      "A vertical mixed-use build with a tight urban footprint, coordinated high-rise logistics, and phased turnover for office, retail, and amenity spaces.",
-    "riverside-medical":
-      "A healthcare delivery environment planned around critical path inspections, resilient infrastructure, patient-flow requirements, and clean handoffs between clinical zones.",
-    "sunridge-estates":
-      "A community-scale residential program balancing horizontal infrastructure, repeatable housing delivery, parks, and neighborhood-serving commercial work.",
-    "gateway-logistics":
-      "A large-format industrial hub built around clear-span efficiency, durable paving, dock throughput, automation readiness, and heavy utility coordination.",
-    "lakeview-civic":
-      "A public-facing civic project combining municipal offices, library functions, public plaza work, accessibility, and high-performance sustainability goals.",
-    "pacific-crest-hotel":
-      "A hospitality tower where guest experience, back-of-house flow, acoustic performance, premium finishes, and amenity sequencing drove the construction plan.",
-  };
-
-  return narratives[project.id] ?? project.desc;
-}
-
-function getDeliveryFocus(project: Project) {
-  if (project.type.includes("Healthcare")) {
-    return ["Clinical phasing", "MEP redundancy", "Inspection readiness", "Low-disruption turnover"];
-  }
-  if (project.type.includes("Industrial")) {
-    return ["Dock circulation", "Automation-ready shell", "Heavy slab coordination", "Utility capacity"];
-  }
-  if (project.type.includes("Residential")) {
-    return ["Infrastructure sequencing", "Model repeatability", "Amenity delivery", "Buyer-ready finishes"];
-  }
-  if (project.type.includes("Hospitality")) {
-    return ["Guest-room stacking", "Amenity coordination", "Acoustic control", "Premium finish QA"];
-  }
-  if (project.type.includes("Public")) {
-    return ["Public access", "LEED documentation", "Civic durability", "Stakeholder reviews"];
-  }
-  return ["Urban logistics", "Tenant coordination", "Envelope performance", "Schedule compression"];
-}
-
 export default async function ProjectDetailsPage({
   params,
 }: {
@@ -75,8 +37,8 @@ export default async function ProjectDetailsPage({
   }
 
   const related = siteData.projects.filter((item) => item.id !== project.id).slice(0, 3);
-  const focus = getDeliveryFocus(project);
-  const narrative = getProjectNarrative(project);
+  const focus = project.deliveryFocus;
+  const narrative = project.detailNarrative || project.desc;
 
   return (
     <main style={{ minHeight: "100vh", background: "var(--steel)", color: "var(--white)" }}>

@@ -98,7 +98,14 @@
       "floors": 52,
       "sqft": "1.2M sq ft",
       "color": "#f5a623",
-      "desc": "52-story mixed-use tower featuring luxury offices, retail podium, and sky amenities. Completed 3 weeks ahead of schedule."
+      "desc": "52-story mixed-use tower featuring luxury offices, retail podium, and sky amenities. Completed 3 weeks ahead of schedule.",
+      "detailNarrative": "A vertical mixed-use build with a tight urban footprint, coordinated high-rise logistics, and phased turnover for office, retail, and amenity spaces.",
+      "deliveryFocus": [
+        "Urban logistics",
+        "Tenant coordination",
+        "Envelope performance",
+        "Schedule compression"
+      ]
     },
     {
       "id": "riverside-medical",
@@ -110,7 +117,14 @@
       "floors": 8,
       "sqft": "480K sq ft",
       "color": "#5b9cf6",
-      "desc": "State-of-the-art regional medical center with 320 beds, surgical suites, and integrated research wing."
+      "desc": "State-of-the-art regional medical center with 320 beds, surgical suites, and integrated research wing.",
+      "detailNarrative": "A healthcare delivery environment planned around critical path inspections, resilient infrastructure, patient-flow requirements, and clean handoffs between clinical zones.",
+      "deliveryFocus": [
+        "Clinical phasing",
+        "MEP redundancy",
+        "Inspection readiness",
+        "Low-disruption turnover"
+      ]
     },
     {
       "id": "sunridge-estates",
@@ -122,7 +136,14 @@
       "floors": null,
       "sqft": "620 homes",
       "color": "#6be6a0",
-      "desc": "650-acre master-planned community with 620 single-family homes, parks, and commercial center."
+      "desc": "650-acre master-planned community with 620 single-family homes, parks, and commercial center.",
+      "detailNarrative": "A community-scale residential program balancing horizontal infrastructure, repeatable housing delivery, parks, and neighborhood-serving commercial work.",
+      "deliveryFocus": [
+        "Infrastructure sequencing",
+        "Model repeatability",
+        "Amenity delivery",
+        "Buyer-ready finishes"
+      ]
     },
     {
       "id": "gateway-logistics",
@@ -134,7 +155,14 @@
       "floors": 3,
       "sqft": "2.8M sq ft",
       "color": "#e85f5f",
-      "desc": "Mega distribution center serving America's midsection, built with advanced automation-ready infrastructure."
+      "desc": "Mega distribution center serving America's midsection, built with advanced automation-ready infrastructure.",
+      "detailNarrative": "A large-format industrial hub built around clear-span efficiency, durable paving, dock throughput, automation readiness, and heavy utility coordination.",
+      "deliveryFocus": [
+        "Dock circulation",
+        "Automation-ready shell",
+        "Heavy slab coordination",
+        "Utility capacity"
+      ]
     },
     {
       "id": "lakeview-civic",
@@ -146,7 +174,14 @@
       "floors": 5,
       "sqft": "210K sq ft",
       "color": "#c77dff",
-      "desc": "Award-winning civic center housing city hall, library, and public plaza. LEED Platinum certified."
+      "desc": "Award-winning civic center housing city hall, library, and public plaza. LEED Platinum certified.",
+      "detailNarrative": "A public-facing civic project combining municipal offices, library functions, public plaza work, accessibility, and high-performance sustainability goals.",
+      "deliveryFocus": [
+        "Public access",
+        "LEED documentation",
+        "Civic durability",
+        "Stakeholder reviews"
+      ]
     },
     {
       "id": "pacific-crest-hotel",
@@ -158,7 +193,14 @@
       "floors": 34,
       "sqft": "580K sq ft",
       "color": "#ffd166",
-      "desc": "34-story luxury hotel with 480 rooms, rooftop bar, conference center, and spa. AAA Five Diamond certified."
+      "desc": "34-story luxury hotel with 480 rooms, rooftop bar, conference center, and spa. AAA Five Diamond certified.",
+      "detailNarrative": "A hospitality tower where guest experience, back-of-house flow, acoustic performance, premium finishes, and amenity sequencing drove the construction plan.",
+      "deliveryFocus": [
+        "Guest-room stacking",
+        "Amenity coordination",
+        "Acoustic control",
+        "Premium finish QA"
+      ]
     }
   ],
   "services": {
