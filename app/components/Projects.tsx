@@ -1,11 +1,11 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import siteData from "@/data/site.data.json";
-
-const { projects } = siteData;
+import { useSiteData } from "./SiteDataProvider";
 
 export default function Projects() {
+  const { projects } = useSiteData();
   const sectionRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   const [active, setActive] = useState<number | null>(null);
@@ -33,13 +33,18 @@ export default function Projects() {
         {/* Grid */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", gap: 2 }}>
           {projects.map((p, i) => (
-            <div
+            <Link
               key={p.id}
+              href={`/project/${p.id}`}
               onMouseEnter={() => setActive(i)}
               onMouseLeave={() => setActive(null)}
+              aria-label={`View ${p.title} project details`}
               style={{
                 background: active === i ? "var(--steel-light)" : "var(--steel-mid)",
                 padding: 32, cursor: "pointer",
+                display: "block",
+                color: "inherit",
+                textDecoration: "none",
                 transition: "all 0.3s ease",
                 borderTop: `3px solid ${active === i ? p.color : "transparent"}`,
                 transform: active === i ? "translateY(-4px)" : "translateY(0)",
@@ -83,7 +88,7 @@ export default function Projects() {
                   <div style={{ fontFamily: "Barlow Condensed", fontSize: 11, letterSpacing: "0.1em", color: "var(--concrete)", textTransform: "uppercase" }}>Scale</div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

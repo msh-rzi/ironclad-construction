@@ -1,9 +1,8 @@
 "use client";
-import siteData from "@/data/site.data.json";
-
-const { footer, company } = siteData;
+import { useSiteData } from "./SiteDataProvider";
 
 export default function Footer() {
+  const { footer, company } = useSiteData();
   return (
     <footer style={{ background: "#111520", borderTop: "1px solid rgba(245,166,35,0.15)", padding: "48px max(24px, 5vw) 32px" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>

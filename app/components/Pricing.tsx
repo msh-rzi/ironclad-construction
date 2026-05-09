@@ -1,11 +1,10 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { Check, Zap } from "lucide-react";
-import siteData from "@/data/site.data.json";
-
-const { pricing } = siteData;
+import { useSiteData } from "./SiteDataProvider";
 
 export default function Pricing() {
+  const { pricing } = useSiteData();
   const sectionRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 

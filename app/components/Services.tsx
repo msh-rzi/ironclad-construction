@@ -1,9 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { Building2, Home, Factory, Wrench, Leaf, ShieldCheck, LucideIcon } from "lucide-react";
-import siteData from "@/data/site.data.json";
-
-const { services } = siteData;
+import { useSiteData } from "./SiteDataProvider";
 
 // Map JSON icon strings → Lucide components
 const ICON_MAP: Record<string, LucideIcon> = {
@@ -16,6 +14,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
 };
 
 export default function Services() {
+  const { services } = useSiteData();
   const sectionRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 

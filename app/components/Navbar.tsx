@@ -1,11 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-import siteData from "@/data/site.data.json";
-
-const { navbar, company } = siteData;
+import { useSiteData } from "./SiteDataProvider";
 
 export default function Navbar() {
+  const { navbar, company } = useSiteData();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 

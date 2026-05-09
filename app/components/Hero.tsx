@@ -1,10 +1,9 @@
 "use client";
 import { useEffect, useRef } from "react";
-import siteData from "@/data/site.data.json";
-
-const { hero, company } = siteData;
+import { useSiteData } from "./SiteDataProvider";
 
 export default function Hero() {
+  const { hero } = useSiteData();
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {

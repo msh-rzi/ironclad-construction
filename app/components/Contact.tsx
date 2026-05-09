@@ -1,9 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { MapPin, Phone, Mail, Clock, LucideIcon } from "lucide-react";
-import siteData from "@/data/site.data.json";
-
-const { contact, company } = siteData;
+import { useSiteData } from "./SiteDataProvider";
 
 const ICON_MAP: Record<string, LucideIcon> = { MapPin, Phone, Mail, Clock };
 
@@ -22,6 +20,7 @@ const focusInput = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement |
 const blurInput  = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => { e.target.style.borderColor = "rgba(245,166,35,0.15)"; };
 
 export default function Contact() {
+  const { contact, company } = useSiteData();
   const sectionRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   const [sent, setSent] = useState(false);
