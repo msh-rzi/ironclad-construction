@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Send, Bot, User, Loader2, DollarSign, Lock, PhoneCall } from "lucide-react";
-import aiConfig from "@/ai.config.json";
 
 interface Message {
   role: "user" | "assistant";
@@ -14,59 +13,92 @@ interface Quota {
   tokensRemaining: number;
 }
 
+interface EstimatorConfig {
+  welcomeMessage: string;
+  fallbackMessage: string;
+  quickPrompts: string[];
+}
+
 const MAX_REQUESTS = 3;
 
 export default function Estimator() {
-  const [messages, setMessages] = useState<Message[]>([
-    { role: "assistant", content: aiConfig.welcomeMessage },
-  ]);
+  const [estimatorConfig, setEstimatorConfig] = useState<EstimatorConfig | null>(null);
+  const [configError, setConfigError] = useState(false);
+
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [quota, setQuota] = useState<Quota>({
-    requestsRemaining: MAX_REQUESTS,
-    tokensRemaining: 3000,
+
+  const [quota, setQuota] = useState<Quota>(() => {
+    if (typeof window === "undefined") {
+      return { requestsRemaining: MAX_REQUESTS, tokensRemaining: 3000 };
+    }
+    try {
+      const stored = sessionStorage.getItem("est_quota");
+      if (stored) return JSON.parse(stored) as Quota;
+    } catch {
+      // ignore malformed storage
+    }
+    return { requestsRemaining: MAX_REQUESTS, tokensRemaining: 3000 };
   });
-  const [limitHit, setLimitHit] = useState(false);
+
+  const [limitHit, setLimitHit] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    try {
+      const stored = sessionStorage.getItem("est_quota");
+      if (stored) {
+        const parsed: Quota = JSON.parse(stored);
+        return parsed.requestsRemaining <= 0 || parsed.tokensRemaining <= 0;
+      }
+    } catch {
+      // ignore malformed storage
+    }
+    return false;
+  });
 
   const bottomRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
-  // Persist limit state in sessionStorage so a page refresh doesn't reset UI
-  // (the server will still block, but UX stays consistent)
+  // Fetch estimator config from API on mount so edits to site-data are always reflected
   useEffect(() => {
-    const stored = sessionStorage.getItem("est_quota");
-    if (stored) {
-      try {
-        const parsed: Quota = JSON.parse(stored);
-        setQuota(parsed);
-        if (parsed.requestsRemaining <= 0 || parsed.tokensRemaining <= 0) {
-          setLimitHit(true);
-        }
-      } catch {
-        // ignore malformed storage
-      }
-    }
+    fetch("/api/site-data")
+      .then((r) => {
+        if (!r.ok) throw new Error("Failed to fetch site data");
+        return r.json();
+      })
+      .then((data) => {
+        const config: EstimatorConfig = data.estimator;
+        setEstimatorConfig(config);
+      })
+      .catch(() => {
+        setConfigError(true);
+      });
   }, []);
+
+  // Set the welcome message once config is loaded (only if no messages yet)
+  useEffect(() => {
+    if (estimatorConfig && messages.length === 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setMessages([{ role: "assistant", content: estimatorConfig.welcomeMessage }]);
+    }
+  }, [estimatorConfig]);
 
   // Intersection observer for entrance animation
   useEffect(() => {
     const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setVisible(true); },
-      { threshold: 0.1 }
+      ([e]) => {
+        if (e.isIntersecting) setVisible(true);
+      },
+      { threshold: 0.1 },
     );
     if (sectionRef.current) obs.observe(sectionRef.current);
     return () => obs.disconnect();
   }, []);
 
-  // // Scroll to bottom on new messages
-  // useEffect(() => {
-  //   bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  // }, [messages, loading]);
-
   const sendMessage = async () => {
     const text = input.trim();
-    if (!text || loading || limitHit) return;
+    if (!text || loading || limitHit || !estimatorConfig) return;
 
     const newMessages: Message[] = [...messages, { role: "user", content: text }];
     setMessages(newMessages);
@@ -81,12 +113,10 @@ export default function Estimator() {
       });
 
       if (res.status === 429) {
-        // Rate or token limit hit on the server
         setLimitHit(true);
         const newQuota = { requestsRemaining: 0, tokensRemaining: 0 };
         setQuota(newQuota);
         sessionStorage.setItem("est_quota", JSON.stringify(newQuota));
-
         setMessages((prev) => [
           ...prev,
           {
@@ -113,7 +143,6 @@ export default function Estimator() {
         };
         setQuota(updated);
         sessionStorage.setItem("est_quota", JSON.stringify(updated));
-
         if (updated.requestsRemaining <= 0 || updated.tokensRemaining <= 0) {
           setLimitHit(true);
         }
@@ -122,15 +151,26 @@ export default function Estimator() {
       console.error("[Estimator] fetch error:", err);
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: aiConfig.fallbackMessage },
+        {
+          role: "assistant",
+          content: estimatorConfig.fallbackMessage,
+        },
       ]);
     } finally {
       setLoading(false);
     }
   };
 
-  const isInputDisabled = loading || limitHit;
+  const isInputDisabled = loading || limitHit || !estimatorConfig;
   const usedRequests = MAX_REQUESTS - quota.requestsRemaining;
+
+  // Skeleton pulse style for loading state
+  const skeletonStyle: React.CSSProperties = {
+    background: "linear-gradient(90deg, var(--steel-light) 25%, rgba(255,255,255,0.05) 50%, var(--steel-light) 75%)",
+    backgroundSize: "200% 100%",
+    animation: "shimmer 1.4s infinite",
+    borderRadius: 4,
+  };
 
   return (
     <section
@@ -153,8 +193,7 @@ export default function Estimator() {
           top: "20%",
           width: 400,
           height: 400,
-          background:
-            "radial-gradient(circle, rgba(245,166,35,0.08) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(245,166,35,0.08) 0%, transparent 70%)",
           pointerEvents: "none",
         }}
       />
@@ -195,9 +234,7 @@ export default function Estimator() {
               </span>
             </div>
 
-            <h2
-              style={{ fontSize: "clamp(44px, 5vw, 72px)", color: "var(--white)", marginBottom: 20 }}
-            >
+            <h2 style={{ fontSize: "clamp(44px, 5vw, 72px)", color: "var(--white)", marginBottom: 20 }}>
               AI PRICE
               <br />
               <span style={{ color: "var(--amber)" }}>ESTIMATOR</span>
@@ -211,8 +248,8 @@ export default function Estimator() {
                 marginBottom: 24,
               }}
             >
-              Describe your project and our AI estimator will give you a realistic ballpark cost
-              based on current US market data. No obligation, no sign-up.
+              Describe your project and our AI estimator will give you a realistic ballpark cost based on current US
+              market data. No obligation, no sign-up.
             </p>
 
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
@@ -260,44 +297,79 @@ export default function Estimator() {
             >
               Try an example:
             </p>
+
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {aiConfig.quickPrompts.map((q: string, i: number) => (
-                <button
-                  key={i}
-                  onClick={() => !limitHit && setInput(q)}
-                  disabled={limitHit}
+              {/* Config loading skeleton */}
+              {!estimatorConfig && !configError &&
+                Array.from({ length: 4 }).map((_, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      ...skeletonStyle,
+                      height: 46,
+                      opacity: 1 - i * 0.15,
+                    }}
+                  />
+                ))
+              }
+
+              {/* Config error fallback */}
+              {configError && (
+                <div
                   style={{
-                    background: "var(--steel)",
-                    border: "1px solid rgba(245,166,35,0.2)",
-                    color: limitHit ? "var(--concrete)" : "var(--concrete-light)",
                     padding: "12px 18px",
-                    textAlign: "left",
+                    border: "1px solid rgba(232,95,95,0.3)",
+                    color: "var(--concrete)",
                     fontFamily: "Barlow",
-                    fontSize: 14,
-                    cursor: limitHit ? "not-allowed" : "pointer",
-                    transition: "all 0.2s",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 10,
-                    opacity: limitHit ? 0.5 : 1,
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!limitHit) {
-                      e.currentTarget.style.borderColor = "var(--amber)";
-                      e.currentTarget.style.color = "var(--white)";
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = "rgba(245,166,35,0.2)";
-                    e.currentTarget.style.color = limitHit
-                      ? "var(--concrete)"
-                      : "var(--concrete-light)";
+                    fontSize: 13,
                   }}
                 >
-                  <DollarSign size={14} color={limitHit ? "var(--concrete)" : "var(--amber)"} style={{ flexShrink: 0 }} />
-                  {q}
-                </button>
-              ))}
+                  Could not load quick prompts. Please refresh.
+                </div>
+              )}
+
+              {/* Loaded prompts */}
+              {estimatorConfig &&
+                estimatorConfig.quickPrompts.map((q: string, i: number) => (
+                  <button
+                    key={i}
+                    onClick={() => !limitHit && setInput(q)}
+                    disabled={limitHit}
+                    style={{
+                      background: "var(--steel)",
+                      border: "1px solid rgba(245,166,35,0.2)",
+                      color: limitHit ? "var(--concrete)" : "var(--concrete-light)",
+                      padding: "12px 18px",
+                      textAlign: "left",
+                      fontFamily: "Barlow",
+                      fontSize: 14,
+                      cursor: limitHit ? "not-allowed" : "pointer",
+                      transition: "all 0.2s",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 10,
+                      opacity: limitHit ? 0.5 : 1,
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!limitHit) {
+                        e.currentTarget.style.borderColor = "var(--amber)";
+                        e.currentTarget.style.color = "var(--white)";
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = "rgba(245,166,35,0.2)";
+                      e.currentTarget.style.color = limitHit ? "var(--concrete)" : "var(--concrete-light)";
+                    }}
+                  >
+                    <DollarSign
+                      size={14}
+                      color={limitHit ? "var(--concrete)" : "var(--amber)"}
+                      style={{ flexShrink: 0 }}
+                    />
+                    {q}
+                  </button>
+                ))
+              }
             </div>
           </div>
         </div>
@@ -349,8 +421,8 @@ export default function Estimator() {
                   Daily estimate limit reached
                 </div>
                 <div style={{ fontSize: 13, color: "var(--concrete-light)", lineHeight: 1.5 }}>
-                  You've used all {MAX_REQUESTS} free AI estimates for today. The limit resets at
-                  midnight UTC. For a formal quote, contact our team directly.
+                  You&apos;ve used all {MAX_REQUESTS} free AI estimates for today. The limit resets at midnight UTC. For a
+                  formal quote, contact our team directly.
                 </div>
               </div>
             </div>
@@ -388,9 +460,7 @@ export default function Estimator() {
         <div
           style={{
             background: "var(--steel)",
-            border: limitHit
-              ? "1px solid rgba(245,166,35,0.1)"
-              : "1px solid rgba(245,166,35,0.2)",
+            border: limitHit ? "1px solid rgba(245,166,35,0.1)" : "1px solid rgba(245,166,35,0.2)",
             overflow: "hidden",
             opacity: visible ? 1 : 0,
             transform: visible ? "translateY(0)" : "translateY(40px)",
@@ -417,8 +487,7 @@ export default function Estimator() {
                   width: 36,
                   height: 36,
                   background: limitHit ? "var(--concrete)" : "var(--amber)",
-                  clipPath:
-                    "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)",
+                  clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -445,19 +514,24 @@ export default function Estimator() {
                     style={{
                       width: 6,
                       height: 6,
-                      background: limitHit ? "#888" : "#6be6a0",
+                      background: limitHit ? "#888" : estimatorConfig ? "#6be6a0" : "var(--amber)",
                       borderRadius: "50%",
                       transition: "background 0.3s",
+                      animation: !estimatorConfig && !limitHit ? "pulse 1.5s infinite" : "none",
                     }}
                   />
                   <span
                     style={{
                       fontFamily: "Barlow",
                       fontSize: 12,
-                      color: limitHit ? "var(--concrete)" : "#6be6a0",
+                      color: limitHit ? "var(--concrete)" : estimatorConfig ? "#6be6a0" : "var(--amber)",
                     }}
                   >
-                    {limitHit ? "Limit reached · Resets midnight UTC" : "Online · Instant Response"}
+                    {limitHit
+                      ? "Limit reached · Resets midnight UTC"
+                      : estimatorConfig
+                      ? "Online · Instant Response"
+                      : "Loading..."}
                   </span>
                 </div>
               </div>
@@ -515,6 +589,65 @@ export default function Estimator() {
               gap: 16,
             }}
           >
+            {/* Config loading — skeleton welcome bubble */}
+            {!estimatorConfig && !configError && (
+              <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                <div
+                  style={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: "50%",
+                    background: "var(--amber)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0,
+                  }}
+                >
+                  <Bot size={16} color="var(--steel)" />
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 6, flex: 1, maxWidth: "72%" }}>
+                  <div style={{ ...skeletonStyle, height: 14, width: "90%" }} />
+                  <div style={{ ...skeletonStyle, height: 14, width: "75%" }} />
+                  <div style={{ ...skeletonStyle, height: 14, width: "60%" }} />
+                </div>
+              </div>
+            )}
+
+            {/* Config error */}
+            {configError && messages.length === 0 && (
+              <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                <div
+                  style={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: "50%",
+                    background: "var(--amber)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0,
+                  }}
+                >
+                  <Bot size={16} color="var(--steel)" />
+                </div>
+                <div
+                  style={{
+                    maxWidth: "72%",
+                    background: "var(--steel-light)",
+                    border: "1px solid rgba(255,255,255,0.06)",
+                    padding: "12px 16px",
+                    borderRadius: "0 8px 8px 8px",
+                    fontSize: 14,
+                    lineHeight: 1.65,
+                    color: "var(--concrete-light)",
+                  }}
+                >
+                  Unable to load estimator config. Please refresh the page or call us at 1-800-IRONCLAD.
+                </div>
+              </div>
+            )}
+
             {messages.map((m, i) => (
               <div
                 key={i}
@@ -533,12 +666,8 @@ export default function Estimator() {
                     height: 32,
                     borderRadius: "50%",
                     flexShrink: 0,
-                    background:
-                      m.role === "assistant" ? "var(--amber)" : "var(--steel-light)",
-                    border:
-                      m.role === "user"
-                        ? "1px solid rgba(245,166,35,0.3)"
-                        : "none",
+                    background: m.role === "assistant" ? "var(--amber)" : "var(--steel-light)",
+                    border: m.role === "user" ? "1px solid rgba(245,166,35,0.3)" : "none",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -555,23 +684,16 @@ export default function Estimator() {
                 <div
                   style={{
                     maxWidth: "72%",
-                    background:
-                      m.role === "assistant"
-                        ? "var(--steel-light)"
-                        : "rgba(245,166,35,0.1)",
+                    background: m.role === "assistant" ? "var(--steel-light)" : "rgba(245,166,35,0.1)",
                     border:
                       m.role === "assistant"
                         ? "1px solid rgba(255,255,255,0.06)"
                         : "1px solid rgba(245,166,35,0.2)",
                     padding: "12px 16px",
-                    borderRadius:
-                      m.role === "assistant" ? "0 8px 8px 8px" : "8px 0 8px 8px",
+                    borderRadius: m.role === "assistant" ? "0 8px 8px 8px" : "8px 0 8px 8px",
                     fontSize: 14,
                     lineHeight: 1.65,
-                    color:
-                      m.role === "assistant"
-                        ? "var(--concrete-light)"
-                        : "var(--white)",
+                    color: m.role === "assistant" ? "var(--concrete-light)" : "var(--white)",
                     whiteSpace: "pre-wrap",
                   }}
                 >
@@ -582,10 +704,7 @@ export default function Estimator() {
 
             {/* Loading indicator */}
             {loading && (
-              <div
-                className="chat-bubble"
-                style={{ display: "flex", gap: 12, alignItems: "flex-start" }}
-              >
+              <div className="chat-bubble" style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
                 <div
                   style={{
                     width: 32,
@@ -611,14 +730,8 @@ export default function Estimator() {
                     alignItems: "center",
                   }}
                 >
-                  <Loader2
-                    size={14}
-                    color="var(--amber)"
-                    style={{ animation: "spin 1s linear infinite" }}
-                  />
-                  <span style={{ fontSize: 13, color: "var(--concrete)" }}>
-                    Analyzing your project...
-                  </span>
+                  <Loader2 size={14} color="var(--amber)" style={{ animation: "spin 1s linear infinite" }} />
+                  <span style={{ fontSize: 13, color: "var(--concrete)" }}>Analyzing your project...</span>
                 </div>
               </div>
             )}
@@ -696,6 +809,8 @@ export default function Estimator() {
               placeholder={
                 limitHit
                   ? "Daily limit reached — contact us for a formal quote"
+                  : !estimatorConfig
+                  ? "Loading estimator..."
                   : "Describe your project (type, size, location, quality)..."
               }
               style={{
@@ -713,22 +828,16 @@ export default function Estimator() {
               onFocus={(e) => {
                 if (!isInputDisabled) e.target.style.borderColor = "var(--amber)";
               }}
-              onBlur={(e) =>
-                (e.target.style.borderColor = "rgba(245,166,35,0.2)")
-              }
+              onBlur={(e) => (e.target.style.borderColor = "rgba(245,166,35,0.2)")}
             />
             <button
               onClick={sendMessage}
               disabled={isInputDisabled || !input.trim()}
               style={{
-                background:
-                  isInputDisabled || !input.trim()
-                    ? "rgba(245,166,35,0.3)"
-                    : "var(--amber)",
+                background: isInputDisabled || !input.trim() ? "rgba(245,166,35,0.3)" : "var(--amber)",
                 border: "none",
                 padding: "0 20px",
-                clipPath:
-                  "polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)",
+                clipPath: "polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)",
                 cursor: isInputDisabled || !input.trim() ? "not-allowed" : "pointer",
                 transition: "background 0.2s",
                 display: "flex",
@@ -751,15 +860,15 @@ export default function Estimator() {
           }}
         >
           AI estimates are for planning purposes only. Contact us for a formal, site-specific quote.{" "}
-          <span style={{ opacity: 0.6 }}>
-            · {MAX_REQUESTS} free estimates per day, resets at midnight UTC.
-          </span>
+          <span style={{ opacity: 0.6 }}>· {MAX_REQUESTS} free estimates per day, resets at midnight UTC.</span>
         </p>
       </div>
 
       <style>{`
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         @media (max-width: 768px) {
           .est-header { grid-template-columns: 1fr !important; gap: 32px !important; }
           .limit-banner { flex-direction: column !important; align-items: flex-start !important; }

@@ -22,28 +22,13 @@
       "weekday": "Mon–Fri 7AM–6PM CST",
       "emergency": "Emergency line 24/7"
     },
-    "socialHandles": [
-      "LI",
-      "TW",
-      "IG",
-      "FB"
-    ],
-    "regionalOffices": [
-      "Dallas, TX (HQ)",
-      "Houston, TX",
-      "Chicago, IL",
-      "Phoenix, AZ",
-      "Seattle, WA",
-      "Nashville, TN"
-    ],
+    "socialHandles": ["LI", "TW", "IG", "FB"],
+    "regionalOffices": ["Dallas, TX (HQ)", "Houston, TX", "Chicago, IL", "Phoenix, AZ", "Seattle, WA", "Nashville, TN"],
     "legalLine": "Licensed General Contractor in all 50 states."
   },
   "hero": {
     "eyebrow": "Est. 1996 · Dallas, TX · Nationwide",
-    "headline": [
-      "WE BUILD",
-      "AMERICA"
-    ],
+    "headline": ["WE BUILD", "AMERICA"],
     "body": "From groundbreaking to ribbon-cutting, IronClad Builders has delivered landmark commercial, industrial, and residential projects for over two decades — on time, on budget, ironclad.",
     "ctas": [
       {
@@ -77,13 +62,7 @@
     ]
   },
   "navbar": {
-    "links": [
-      "Projects",
-      "Services",
-      "Pricing",
-      "Estimator",
-      "Contact"
-    ],
+    "links": ["Projects", "Services", "Pricing", "Estimator", "Contact"],
     "ctaLabel": "Get Estimate",
     "ctaHref": "#estimator"
   },
@@ -100,12 +79,7 @@
       "color": "#f5a623",
       "desc": "52-story mixed-use tower featuring luxury offices, retail podium, and sky amenities. Completed 3 weeks ahead of schedule.",
       "detailNarrative": "A vertical mixed-use build with a tight urban footprint, coordinated high-rise logistics, and phased turnover for office, retail, and amenity spaces.",
-      "deliveryFocus": [
-        "Urban logistics",
-        "Tenant coordination",
-        "Envelope performance",
-        "Schedule compression"
-      ]
+      "deliveryFocus": ["Urban logistics", "Tenant coordination", "Envelope performance", "Schedule compression"]
     },
     {
       "id": "riverside-medical",
@@ -119,12 +93,7 @@
       "color": "#5b9cf6",
       "desc": "State-of-the-art regional medical center with 320 beds, surgical suites, and integrated research wing.",
       "detailNarrative": "A healthcare delivery environment planned around critical path inspections, resilient infrastructure, patient-flow requirements, and clean handoffs between clinical zones.",
-      "deliveryFocus": [
-        "Clinical phasing",
-        "MEP redundancy",
-        "Inspection readiness",
-        "Low-disruption turnover"
-      ]
+      "deliveryFocus": ["Clinical phasing", "MEP redundancy", "Inspection readiness", "Low-disruption turnover"]
     },
     {
       "id": "sunridge-estates",
@@ -138,12 +107,7 @@
       "color": "#6be6a0",
       "desc": "650-acre master-planned community with 620 single-family homes, parks, and commercial center.",
       "detailNarrative": "A community-scale residential program balancing horizontal infrastructure, repeatable housing delivery, parks, and neighborhood-serving commercial work.",
-      "deliveryFocus": [
-        "Infrastructure sequencing",
-        "Model repeatability",
-        "Amenity delivery",
-        "Buyer-ready finishes"
-      ]
+      "deliveryFocus": ["Infrastructure sequencing", "Model repeatability", "Amenity delivery", "Buyer-ready finishes"]
     },
     {
       "id": "gateway-logistics",
@@ -157,12 +121,7 @@
       "color": "#e85f5f",
       "desc": "Mega distribution center serving America's midsection, built with advanced automation-ready infrastructure.",
       "detailNarrative": "A large-format industrial hub built around clear-span efficiency, durable paving, dock throughput, automation readiness, and heavy utility coordination.",
-      "deliveryFocus": [
-        "Dock circulation",
-        "Automation-ready shell",
-        "Heavy slab coordination",
-        "Utility capacity"
-      ]
+      "deliveryFocus": ["Dock circulation", "Automation-ready shell", "Heavy slab coordination", "Utility capacity"]
     },
     {
       "id": "lakeview-civic",
@@ -176,12 +135,7 @@
       "color": "#c77dff",
       "desc": "Award-winning civic center housing city hall, library, and public plaza. LEED Platinum certified.",
       "detailNarrative": "A public-facing civic project combining municipal offices, library functions, public plaza work, accessibility, and high-performance sustainability goals.",
-      "deliveryFocus": [
-        "Public access",
-        "LEED documentation",
-        "Civic durability",
-        "Stakeholder reviews"
-      ]
+      "deliveryFocus": ["Public access", "LEED documentation", "Civic durability", "Stakeholder reviews"]
     },
     {
       "id": "pacific-crest-hotel",
@@ -195,20 +149,12 @@
       "color": "#ffd166",
       "desc": "34-story luxury hotel with 480 rooms, rooftop bar, conference center, and spa. AAA Five Diamond certified.",
       "detailNarrative": "A hospitality tower where guest experience, back-of-house flow, acoustic performance, premium finishes, and amenity sequencing drove the construction plan.",
-      "deliveryFocus": [
-        "Guest-room stacking",
-        "Amenity coordination",
-        "Acoustic control",
-        "Premium finish QA"
-      ]
+      "deliveryFocus": ["Guest-room stacking", "Amenity coordination", "Acoustic control", "Premium finish QA"]
     }
   ],
   "services": {
     "eyebrow": "What We Do",
-    "headline": [
-      "OUR",
-      "SERVICES"
-    ],
+    "headline": ["OUR", "SERVICES"],
     "body": "Full-service general contracting from site preparation through final inspection. We self-perform core trades and manage elite subcontractors with OSHA-certified safety oversight.",
     "credentials": [
       "Licensed in all 50 states",
@@ -257,10 +203,7 @@
   },
   "pricing": {
     "eyebrow": "Transparent Pricing",
-    "headline": [
-      "PRICING",
-      "OVERVIEW"
-    ],
+    "headline": ["PRICING", "OVERVIEW"],
     "subheading": "We believe in transparent, competitive pricing. Below are typical cost ranges — use our AI Estimator for a personalized quote.",
     "disclaimer": "* All prices are estimated ranges. Final quotes depend on scope, location, materials, and market conditions.",
     "ctaLabel": "Get Detailed Estimate →",
@@ -321,20 +264,11 @@
   },
   "contact": {
     "eyebrow": "Let's Build Together",
-    "headline": [
-      "GET IN",
-      "TOUCH"
-    ],
+    "headline": ["GET IN", "TOUCH"],
     "successTitle": "Message Received",
     "successBody": "A project specialist will reach out within 24 business hours. For urgent matters, call 1-800-IRONCLAD.",
     "formFields": {
-      "projectTypes": [
-        "Residential",
-        "Commercial",
-        "Industrial",
-        "Renovation",
-        "Other"
-      ]
+      "projectTypes": ["Residential", "Commercial", "Industrial", "Renovation", "Other"]
     },
     "infoCards": [
       {
@@ -362,42 +296,34 @@
   "footer": {
     "tagline": "America's trusted general contractor since 1996. Built on integrity, driven by excellence.",
     "copyrightYear": 2025,
-    "legalLinks": [
-      "Privacy Policy",
-      "Terms",
-      "Accessibility"
-    ],
+    "legalLinks": ["Privacy Policy", "Terms", "Accessibility"],
     "columns": [
       {
         "title": "Company",
-        "links": [
-          "About Us",
-          "Leadership",
-          "Careers",
-          "News",
-          "Safety"
-        ]
+        "links": ["About Us", "Leadership", "Careers", "News", "Safety"]
       },
       {
         "title": "Services",
-        "links": [
-          "Commercial",
-          "Residential",
-          "Industrial",
-          "Renovation",
-          "Design-Build"
-        ]
+        "links": ["Commercial", "Residential", "Industrial", "Renovation", "Design-Build"]
       },
       {
         "title": "Resources",
-        "links": [
-          "Project Gallery",
-          "Case Studies",
-          "Blog",
-          "Contact",
-          "Get Estimate"
-        ]
+        "links": ["Project Gallery", "Case Studies", "Blog", "Contact", "Get Estimate"]
       }
     ]
+  },
+  "estimator": {
+    "model": "gpt-5.4-mini",
+    "max_tokens": 900,
+    "temperature": 0.3,
+    "systemPrompt": "You are IronClad Builders' AI Cost Estimator — a precise, professional construction estimating assistant for one of America's top general contractors.\n\nYour job is to help users get a realistic ballpark estimate for construction, renovation, and fit-out projects based on the details they provide.\n\nGuidelines:\n- Ask concise clarifying questions when key details are missing: location, project type, square footage, scope, finish level, timeline, and site conditions.\n- Give realistic US cost ranges based on current market conditions.\n- Break estimates into useful parts when relevant: labor, materials, permits, design, site work, contingency, and specialty trades.\n- Use per-square-foot ranges when helpful, but avoid pretending precision without enough detail.\n- For residential projects, typical ranges may fall around $100-$350/sqft depending on scope and quality.\n- For commercial projects, typical ranges may fall around $150-$600/sqft.\n- For industrial projects, typical ranges may fall around $60-$200/sqft.\n- Always note that a formal quote requires a site visit, drawings, and scope review.\n- Be warm, direct, and highly credible.\n- Keep responses concise: 3-6 sentences maximum.\n- End with either a clear estimated range or the single most important follow-up question.\n- Format currency clearly with $ signs and use commas for readability.\n- Mention IronClad Builders naturally when appropriate, but do not overdo branding.\n- Avoid overpromising; when uncertain, state assumptions clearly.\n- If the request is too vague, ask for the minimum information needed to estimate responsibly.\n- If the project involves unusual scope, code constraints, or premium finishes, widen the range accordingly.",
+    "quickPrompts": [
+      "3,000 sq ft custom home in Texas",
+      "Office renovation, 5,000 sq ft",
+      "20,000 sq ft warehouse in Ohio",
+      "Kitchen & bath remodel"
+    ],
+    "fallbackMessage": "I'm having connectivity issues right now. Please try again or call us at 1-800-IRONCLAD.",
+    "welcomeMessage": "👋 Welcome to IronClad's AI Cost Estimator. I can give you a realistic ballpark estimate for your construction project in minutes. Tell me what you are planning to build or renovate, plus the location and approximate size."
   }
 }

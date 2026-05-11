@@ -29,6 +29,7 @@ function isSiteData(value: unknown): value is Record<string, unknown> {
     "pricing",
     "contact",
     "footer",
+    "estimator",
   ].every((key) => key in data);
 }
 
