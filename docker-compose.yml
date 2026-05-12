@@ -16,7 +16,7 @@ services:
       - "traefik.enable=true"
 
       # Router
-      - "traefik.http.routers.ironclad.rule=Host(`traefik.mehdify.com`)"
+      - "traefik.http.routers.ironclad.rule=Host(`pulsar.fit`)"
       - "traefik.http.routers.ironclad.entrypoints=websecure"
       - "traefik.http.routers.ironclad.tls.certresolver=letsencrypt"
       - "traefik.http.routers.ironclad.service=ironclad"
